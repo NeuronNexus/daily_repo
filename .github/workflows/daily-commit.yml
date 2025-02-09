@@ -2,7 +2,7 @@ name: Daily Commit Workflow
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # This will run at 5:00 PM GMT+5:30 every day (adjust cron for your timezone)
+    - cron: '0 17 * * *'  # This will run at 5:00 PM GMT+5:30 every day
   push:
     branches:
       - main  # Optional, to trigger workflow on push to main
@@ -28,5 +28,7 @@ jobs:
         git add commit.txt
         git commit -m "Automated commit by GitHub Actions"
         
-        # Push the commit to the repository
-        git push origin main
+        # Push the commit to the repository using the GITHUB_TOKEN for authentication
+        git push https://github.com/${{ github.repository }}.git HEAD:main --force
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
